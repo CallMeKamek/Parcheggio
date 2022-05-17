@@ -418,7 +418,7 @@ public class ClientAdmin {
                 String input;
                 if ((input = in.readLine()) != null) {
                     System.out.println(input);
-                    if (input.contains("\"Esito\":\"Positivo\",\"Login\":\"Riuscito\"")) {
+                    if (input.contains("\"Esito\":\"successo\"")) {
                         return true;
                     } else {
                         return false;

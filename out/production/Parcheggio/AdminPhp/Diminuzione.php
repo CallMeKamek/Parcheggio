@@ -38,4 +38,3 @@ if($risultato->num_rows>0){ //se ho almeno un elemento
 	$r=array("Ingresso"=>"Utente non autorizzato a fare questa richiesta");
 	echo json_encode($r);
 }
-?>

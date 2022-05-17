@@ -10,90 +10,126 @@ import java.net.URL;
 public class ClientLoginUtente {
     public static void main(String[] args) {
         final String PERCORSO = "http://localhost/Parcheggio/src/UserPhp/";
-        String ind="";
+        String ind = "";
         BufferedReader tastiera = new BufferedReader(new InputStreamReader(System.in));
         JSONObject daInviare = new JSONObject();
         JSONObject ricevuto = new JSONObject();
         boolean loggato = false;
         int menuLogin = -1;
         int menuAzioni = -1;
+        int codiceUtente;
         String s;
 
         try {
 
-           while(!loggato){
-               System.out.println("Inserisci: \n " +
-                       "1)Per accedere\n" +
-                       "2)Per registrazione");
-               menuLogin = Integer.parseInt(tastiera.readLine());
-               switch (menuLogin) {
-                   case 1:
+            while (!loggato) {
+                System.out.println("Inserisci: \n" +
+                        "1)Per accedere\n" +
+                        "2)Per registrazione");
+                menuLogin = Integer.parseInt(tastiera.readLine());
+                switch (menuLogin) {
+                    case 1:
 
-                       System.out.println("inserisci email");
-                       s = tastiera.readLine();
-                       daInviare.put("email", s);
-                       System.out.println("inserisci password");
-                       s = tastiera.readLine();
-                       daInviare.put("password",s);
-
-
-                       ind= PERCORSO+"loginUtente.php";
-                       ricevuto=richiesta(ind, daInviare);
-                       if(ricevuto.get("success").equals("true")){
-                           loggato=true;
-                           System.out.println("Inserire:" +
-                                   "1)Inserire un nuovo vehicolo\n" +
-                                   "2)Occupare un posto\n" +
-                                   "3)Liberareun posto");
+                        System.out.println("inserisci email");
+                        s = tastiera.readLine();
+                        daInviare.put("email", s);
+                        System.out.println("inserisci password");
+                        s = tastiera.readLine();
+                        daInviare.put("password", s);
 
 
+                        ind = PERCORSO + "loginUtente.php";
+                        ricevuto = richiesta(ind, daInviare);
+                        if (ricevuto.get("esito").equals("successo")) {
+                            loggato = true;
+                            codiceUtente = Integer.parseInt((String) ricevuto.get("cod"));
+                            ricevuto=null;
+                            System.out.println("Inserire:\n" +
+                                    "1)Inserire un nuovo vehicolo\n" +
+                                    "2)Occupare un posto\n" +
+                                    "3)Liberare un posto\n" +
+                                    "4)Eliminare il proprio account\n" +
+                                    "5)Cambiare la email");
+                            menuAzioni = Integer.parseInt(tastiera.readLine());
+                            switch (menuAzioni) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    System.out.println("inserisci targa");
+                                    s = tastiera.readLine();
+                                    daInviare.put("targa", s);
+                                    System.out.println("inserisci il numero posto");
+                                    s = tastiera.readLine();
+                                    daInviare.put("numPosto", s);
+
+                                    ind = PERCORSO + "occupazione.php";
+                                    ricevuto = richiesta(ind, daInviare);
+                                    if (ricevuto.get("esito").equals("successo")) {
+
+                                        System.out.println("Posto occupato con successo");
+
+                                    } else {
+                                        System.out.println("Errore neloccupare il posto");
+
+                                    }
+
+                                    ind = "";
+                                    daInviare = null;
+                                    ricevuto=null;
+                                    break;
+                                case 3:
+
+                                    break;
+                                case 4:
+                                    break;
+                                case 5:
+                                    break;
+                            }
 
 
+                        } else {
+                            System.out.println("non loggato, per favore riprovare");
 
-                       }else{
-                           System.out.printf("non loggato, per favore riprovare");
-
-                       }
-                       ind="";
-                       daInviare=null;
-
-
-
-                       break;
-                   case 2:
-
-                       System.out.println("inserisci nome");
-                       s = tastiera.readLine();
-                       daInviare.put("nome", s);
-                       System.out.println("inserisci cognome");
-                       s = tastiera.readLine();
-                       daInviare.put("cognome",s)
-                       ;System.out.println("inserisci email");
-                       s = tastiera.readLine();
-                       daInviare.put("email",s);
-                       System.out.println("inserisci password");
-                       s = tastiera.readLine();
-                       daInviare.put("password",s);
+                        }
+                        ind = "";
+                        daInviare = null;
+                        ricevuto=null;
 
 
-                       ind= PERCORSO+"registrazione.php";
-                       ricevuto=richiesta(ind, daInviare);
-                       if(ricevuto.get("success").equals("true")){
+                        break;
+                    case 2:
 
-                           System.out.println("Registrato con successo");
-                           System.out.println("Per favore loggarsi");
-                       }else{
-                           System.out.printf("C'e stato un problema durante la sua registrazione");
+                        System.out.println("inserisci nome");
+                        s = tastiera.readLine();
+                        daInviare.put("nome", s);
+                        System.out.println("inserisci cognome");
+                        s = tastiera.readLine();
+                        daInviare.put("cognome", s)
+                        ;
+                        System.out.println("inserisci email");
+                        s = tastiera.readLine();
+                        daInviare.put("email", s);
+                        System.out.println("inserisci password");
+                        s = tastiera.readLine();
+                        daInviare.put("password", s);
 
-                       }
-                       ind="";
-                       daInviare=null;
 
-                       break;
-               }
-           }
+                        ind = PERCORSO + "registrazione.php";
+                        ricevuto = richiesta(ind, daInviare);
+                        if (ricevuto.get("esito").equals("successo")) {
 
+                            System.out.println("Registrato con successo");
+                            System.out.println("Per favore loggarsi");
+                        } else {
+                            System.out.printf("C'e stato un problema durante la sua registrazione");
 
+                        }
+                        ind = "";
+                        daInviare = null;
+
+                        break;
+                }
+            }
 
 
         } catch (Exception e) {
@@ -139,7 +175,7 @@ public class ClientLoginUtente {
                     return daRitornare;
                 } else {
                     daRitornare = new JSONObject();
-                    daRitornare.put("success", "false");
+                    daRitornare.put("esito", "Fallito");
                     return daRitornare;
                 }
             }

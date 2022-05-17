@@ -22,19 +22,19 @@ if (!empty($email) && !empty($password)) {
 		$codUt=$va["CodUtente"];
 	}
     if($result==true) {
-	$r = array("Esito" => "Positivo", "Login" => "Riuscito","CodUtente"=>$codUt);
+	$r = array("Esito" => "successo", "Login" => "Riuscito","cod"=>$codUt);
 	echo json_encode($r);
 	
 	
     }else {
-	$r = array("Esito" => "Negativo", "Login" => "Non riuscito");
+	$r = array("Esito" => "Fallito", "Login" => "Non riuscito");
 	echo json_encode($r);
 	
 }
 	
 }
 else {
-	$r = array("Esito" => "Negativo", "Login" => "Non riuscito");
+	$r = array("Esito" => "Fallito", "Login" => "Non riuscito");
 	echo json_encode($r);
 	
 }

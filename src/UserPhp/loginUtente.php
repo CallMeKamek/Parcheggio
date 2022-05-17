@@ -27,17 +27,15 @@
 
             if ($risultato->num_rows > 0) {
 
-                $r = array("success" => "true", "cod" => $cod);
+                $r = array("esito" => "successo", "cod" => "$cod");
                 echo json_encode($r);
             } else {
 
-                $r = array("success" => "false", "login" => "non andato a buon fine");
+                $r = array("esito" => "Fallito", "login" => "non andato a buon fine");
                 echo json_encode($r);
             }
         } 
     } else {
-        $r = array("success" => "false", "login" => "non andato a buon fine");
+        $r = array("esito" => "Fallito", "login" => "non andato a buon fine");
         echo json_encode($r);
     }
-
-?> 

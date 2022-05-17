@@ -25,7 +25,6 @@
                     $sql="SELECT Update occupazione SET oraFine =Currentime(),  WHERE codiceOccupazione='$codiceOccupazione'";
                 }
                  $conn->query($sql);
-
                  if($conn->affected_rows!=0){
                      $r = array("esito"=>"successo", "Stato"=>"posto liberato con successo");
                      echo json_encode($r);
