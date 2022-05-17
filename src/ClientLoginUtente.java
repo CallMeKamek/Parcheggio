@@ -125,7 +125,7 @@ public class ClientLoginUtente {
 
                         }
                         ind = "";
-                        daInviare = null;
+                        //daInviare = null;
 
                         break;
                 }
@@ -135,20 +135,6 @@ public class ClientLoginUtente {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-        /*ricevuto=richiesta(indirizzo,daRichiedere);
-        if(ricevuto.get("success")=="true"){
-            System.out.println("Successo");
-        } else if (ricevuto.get("success")=="false") {
-            System.out.println("Errore");
-        }
-*/
-
 
     }
 

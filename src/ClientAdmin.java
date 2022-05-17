@@ -162,7 +162,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPosti", valore);
-                                        String ind = percorso+"dimuireposti.php";
+                                        String ind = percorso+"Diminuzione.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -181,7 +181,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPosti", valore);
-                                        String ind = "http://localhost/magliano/aumentoposti.php";
+                                        String ind = percorso+"Aumento.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -254,7 +254,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci email utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("email", valore);
-                                        String ind = "http://localhost/magliano/visualizzadatiutente.php";
+                                        String ind =percorso+ "Ritorno_dati_utenti.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -270,7 +270,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci codice utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("codiceUtente", valore);
-                                        String ind = "http://localhost/magliano/aggiungipermessi.php";
+                                        String ind = percorso+"Permesso_utente-admin.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -286,7 +286,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci codice utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("codiceUtente", valore);
-                                        String ind = "http://localhost/magliano/rimuovipermessi.php";
+                                        String ind = percorso+"Permesso_admin_utente";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -302,7 +302,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci email utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("email", valore);
-                                        String ind = "http://localhost/magliano/eliminazione.php";
+                                        String ind = percorso+"eliminazione.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -404,6 +404,7 @@ public class ClientAdmin {
     public static boolean validate(String ind, String richiesta) {
 
         try {
+            System.out.println(richiesta);
             URL url = new URL(ind);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -417,7 +418,7 @@ public class ClientAdmin {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String input;
                 if ((input = in.readLine()) != null) {
-                    System.out.println(input);
+
                     if (input.contains("\"Esito\":\"successo\"")) {
                         return true;
                     } else {

@@ -28,8 +28,9 @@ if (!empty($codiceUtente)){
 		}
 		
 	}
+	$conn->close();
+
 }
-$conn->close();
 
 
 

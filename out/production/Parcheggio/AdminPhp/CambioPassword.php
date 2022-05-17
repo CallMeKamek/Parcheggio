@@ -31,7 +31,10 @@
             }
 
         }
+        
+        $conn->close();
     }
-    $conn->close();
+
+    
 
 ?>
