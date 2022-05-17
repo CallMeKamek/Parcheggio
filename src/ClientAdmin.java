@@ -1,5 +1,7 @@
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class ClientAdmin {
         BufferedReader tastiera = new BufferedReader(new InputStreamReader(System.in));
         String scelta;
         String valore;
+        String percorso="http://localhost/Parcheggio/src/AdminPhp/";
         int privilegi = 0;
 
         boolean flag = true;
@@ -45,13 +48,10 @@ public class ClientAdmin {
                             valore = tastiera.readLine();
                             oggetto.put("password", valore);
 
-                            System.out.println("inserisci privilegi");
-                            valore = tastiera.readLine();
-                            oggetto.put("privilegi", valore);
-
+                            oggetto.put("privilegi", 1);
 
                             String richiesta = oggetto.toString();
-                            String ind = "http://localhost/magliano/registeradmin.php";
+                            String ind = percorso+"Registrazione.php";
                             connetti(ind, "POST", richiesta);
                         } else {
                             if (privilegi == 1) {
@@ -72,7 +72,8 @@ public class ClientAdmin {
                             oggetto.put("password", valore);
 
                             String richiesta = oggetto.toString();
-                            String ind = "http://localhost/magliano/loginadmin.php";
+
+                            String ind = percorso+"login.php";
                             if (validate(ind, richiesta) == true) {
                                 System.out.println("Successo");
                                 privilegi = 1;
@@ -104,7 +105,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("num_posti", valore);
-                                        String ind = "http://localhost/magliano/aggiungerepiano.php";
+                                        String ind = percorso+"aggiungere_piano.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -119,8 +120,8 @@ public class ClientAdmin {
                                     if (privilegi == 1) {
                                         System.out.println("Inserisci numero del piano");
                                         valore = tastiera.readLine();
-                                        oggetto.put("num_piano_nuovo", valore);
-                                        String ind = "http://localhost/magliano/eliminarepiano.php";
+                                        oggetto.put("piano", valore);
+                                        String ind = percorso+"Delete_piano.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -161,7 +162,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPosti", valore);
-                                        String ind = "http://localhost/magliano/dimuireposti.php";
+                                        String ind = percorso+"dimuireposti.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -383,6 +384,8 @@ public class ClientAdmin {
                         String input;
                         if ((input = in.readLine()) != null) {
                             System.out.println(input);
+                            JSONParser p=new JSONParser();
+                            JSONObject o=(JSONObject) p.parse(input);
                         }
                     } else {
                         System.out.println("errore");
@@ -390,6 +393,8 @@ public class ClientAdmin {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
                 }
 
             }
