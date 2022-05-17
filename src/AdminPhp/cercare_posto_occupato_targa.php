@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: POST");
 $data = json_decode(file_get_contents("php://input"));
 $targa=$data->targa;
 
-if (!empty($codiceUtente)){
+if (!empty($targa)){
 	$server = "localhost";
 	$username = "root";
 	$password = "";
@@ -19,12 +19,21 @@ if (!empty($codiceUtente)){
 
 	}else{
 
-		$sql = "SELECT OraInizio, OraFine, Targa, NumPiano, NumPosto FROM `Occupazione` WHERE Targa=$targa";
+		$sql = "SELECT * FROM `Occupazione` WHERE Targa='$targa'";
+
+		
+
 		$ris=$conn->query($sql);
+		while($row=$ris->fetch_assoc()){
+			$es="targa  ".$row["Targa"]."  num posto  ".$row["NumPosto"]."  ora inizio ".$row["OraInizio"];
+		}
+
 		if ($conn->affected_rows!=0){
-			$r = array("esito"=>"Successo","Stato"=>"Dati targa cercata (posto occupato): ".$ris);
+			$r = array("esito"=>"successo","Stato"=>"Dati targa cercata (posto occupato): ".$es);
+			echo json_encode($r);
 		}else{
 			$r = array("esito"=>"Fallito","Stato"=>"NON TROVATO");
+			echo json_encode($r);
 		}
 		
 	}
