@@ -20,11 +20,11 @@
 
             $ris= $conn->query($sql);
 
-        if(($ris != 0)
+        if($ris != 0)
 		{
                 $r = array("esito"=>"successo", "Stato"=>"Posti liberi: "+$ris);
                 echo json_encode($r);
-				echo ris;
+				//echo ris;
             }else{
                 $r = array("esito"=>"Fallito", "Stato"=>"Non ci sono posti liberi");
                 echo json_encode($r);

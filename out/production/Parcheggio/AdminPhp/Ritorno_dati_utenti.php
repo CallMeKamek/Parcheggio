@@ -21,7 +21,7 @@ if (!empty($codiceUtente)){
 		$sql = "SELECT nome,cognome FROM `utente` WHERE email=$email";
 		$ris=$conn->query($sql);
 		if ($conn->affected_rows!=0){
-			$r = array("esito"=>"Successo","Stato"=>"Dati persona cercata: Email "$email." Nome/Cognome: ".$ris);
+			$r = array("esito"=>"Successo","Stato"=>"Dati persona cercata: Email ".$email." Nome/Cognome: ".$ris);
 		}else{
 			$r = array("esito"=>"Fallito","Stato"=>"NON TROVATO");
 		}

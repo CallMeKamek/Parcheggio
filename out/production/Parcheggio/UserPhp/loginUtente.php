@@ -25,6 +25,7 @@
             
             $cod=$risultato->fetch_assoc()["CodUtente"];
 
+
             if ($risultato->num_rows > 0) {
 
                 $r = array("esito" => "successo", "cod" => "$cod");
