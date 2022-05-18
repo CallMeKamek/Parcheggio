@@ -1,3 +1,4 @@
+/*
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -138,6 +139,7 @@ public class ClientLoginUtente {
 
     }
 
+
     public static JSONObject richiesta(String indirizzo, JSONObject daMandare) {
         JSONParser parser = new JSONParser();
         JSONObject daRitornare = null;
@@ -172,4 +174,4 @@ public class ClientLoginUtente {
         daRitornare.put("success", "false");
         return daRitornare;
     }
-}
+}*/

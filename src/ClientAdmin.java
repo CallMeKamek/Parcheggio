@@ -12,12 +12,12 @@ import java.net.URL;
 
 public class ClientAdmin {
     public static void main(String[] args) {
-
         JSONObject oggetto = new JSONObject();
         BufferedReader tastiera = new BufferedReader(new InputStreamReader(System.in));
         String scelta;
         String valore;
-        String percorso="http://localhost/Parcheggio/src/AdminPhp/";
+        int codUtent = 0;
+        String percorso = "http://localhost/Parcheggio2/";
         int privilegi = 0;
 
         boolean flag = true;
@@ -51,7 +51,7 @@ public class ClientAdmin {
                             oggetto.put("privilegi", 1);
 
                             String richiesta = oggetto.toString();
-                            String ind = percorso+"Registrazione.php";
+                            String ind = percorso + "Registrazione.php";
                             connetti(ind, "POST", richiesta);
                         } else {
                             if (privilegi == 1) {
@@ -73,13 +73,22 @@ public class ClientAdmin {
 
                             String richiesta = oggetto.toString();
 
-                            String ind = percorso+"login.php";
-                            if (validate(ind, richiesta) == true) {
-                                System.out.println("Successo");
+                            String ind = percorso + "login.php";
+                            JSONObject ri = richiesta(ind, oggetto);
+                            if (ri.get("Esito").equals("successo")) {
+                                codUtent = Integer.parseInt(ri.get("cod") + "");
                                 privilegi = 1;
+                                System.out.println("Successo");
                             } else {
                                 System.out.println("credenziali errate.");
                             }
+
+                            /*if (validate(ind, richiesta) == true) {
+                                System.out.println("Successo");
+                                privilegi = 1;
+                            } else {
+
+                            }*/
                         } else {
                             if (privilegi == 1) {
                                 System.out.println("sei già loggato.");
@@ -105,7 +114,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("num_posti", valore);
-                                        String ind = percorso+"aggiungere_piano.php";
+                                        String ind = percorso + "aggiungere_piano.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -121,7 +130,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero del piano");
                                         valore = tastiera.readLine();
                                         oggetto.put("piano", valore);
-                                        String ind = percorso+"Delete_piano.php";
+                                        String ind = percorso + "Delete_piano.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -156,13 +165,16 @@ public class ClientAdmin {
                                 case "1":
                                     //diminuire posti
                                     if (privilegi == 1) {
+                                        oggetto.put("codiceUtente", codUtent + "");
+                                        valore = "EliminaPosto";
+                                        oggetto.put("richiesta", valore);
                                         System.out.println("Inserisci numero del piano");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPiano", valore);
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPosti", valore);
-                                        String ind = percorso+"Diminuzione.php";
+                                        String ind = percorso + "Diminuzione.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -175,13 +187,16 @@ public class ClientAdmin {
                                 case "2":
                                     //aumentare posti
                                     if (privilegi == 1) {
+                                        oggetto.put("codiceUtente", codUtent + "");
+                                        valore = "InserimentoPosti";
+                                        oggetto.put("richiesta", valore);
                                         System.out.println("Inserisci numero del piano");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPiano", valore);
                                         System.out.println("Inserisci numero dei posti");
                                         valore = tastiera.readLine();
                                         oggetto.put("numPosti", valore);
-                                        String ind = percorso+"Aumento.php";
+                                        String ind = percorso + "Aumento.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -197,7 +212,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci numero del piano"); //nel foglio di bursuc non c'è
                                         valore = tastiera.readLine();
                                         oggetto.put("numPiano", valore);
-                                        String ind = "http://localhost/magliano/stampaposti.php";
+                                        String ind = percorso + "Numero_posti_occupati.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -254,7 +269,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci email utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("email", valore);
-                                        String ind =percorso+ "Ritorno_dati_utenti.php";
+                                        String ind = percorso + "Ritorno_dati_utenti.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -270,7 +285,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci codice utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("codiceUtente", valore);
-                                        String ind = percorso+"Permesso_utente-admin.php";
+                                        String ind = percorso + "Permesso_utente-admin.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -286,7 +301,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci codice utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("codiceUtente", valore);
-                                        String ind = percorso+"Permesso_admin_utente";
+                                        String ind = percorso + "Permesso_admin-utente.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -302,7 +317,7 @@ public class ClientAdmin {
                                         System.out.println("Inserisci email utente");
                                         valore = tastiera.readLine();
                                         oggetto.put("email", valore);
-                                        String ind = percorso+"eliminazione.php";
+                                        String ind = percorso + "eliminazione.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -381,25 +396,26 @@ public class ClientAdmin {
                     int rCode = conn.getResponseCode();
                     if (rCode == 200) {
                         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        String input;
+                        String input = "";
                         if ((input = in.readLine()) != null) {
                             System.out.println(input);
-                            JSONParser p=new JSONParser();
-                            JSONObject o=(JSONObject) p.parse(input);
+                            JSONParser p = new JSONParser();
+
+                            JSONObject o = (JSONObject) p.parse(input);
                         }
                     } else {
                         System.out.println("errore");
                         System.out.println("codice errore: " + rCode + "\n");
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
 
+
+                }
             }
         }
     }
+
 
     public static boolean validate(String ind, String richiesta) {
 
@@ -434,4 +450,42 @@ public class ClientAdmin {
         }
         return false;
     }
+
+
+    public static JSONObject richiesta(String indirizzo, JSONObject daMandare) {
+        JSONParser parser = new JSONParser();
+        JSONObject daRitornare = null;
+        try {
+            String output = daMandare.toJSONString();
+            URL url = new URL(indirizzo);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            OutputStream os = connection.getOutputStream();
+            os.write(output.getBytes());
+            os.flush();
+            os.close();
+            int rCode = connection.getResponseCode();
+            if (rCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String input;
+                if ((input = in.readLine()) != null) {
+                    //System.out.println(input);
+                    daRitornare = (JSONObject) parser.parse(input);
+                    return daRitornare;
+                } else {
+                    daRitornare = new JSONObject();
+                    daRitornare.put("esito", "Fallito");
+                    return daRitornare;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        daRitornare = new JSONObject();
+        daRitornare.put("success", "false");
+        return daRitornare;
+    }
 }
+
+

@@ -10,10 +10,11 @@ $dato = json_decode(file_get_contents("php://input")); //estraggo il json
 
 $codiceUtente = $dato->codiceUtente;
 $richiesta = $dato->richiesta;
+
 $utente = "SELECT * FROM utente WHERE CodUtente='$codiceUtente' AND  Privilegi=1"; //vogliamo saper il tipo di utente
 $risultato = $conn->query($utente);
 if ($risultato->num_rows > 0) { //se ho almeno un elemento
-	if ($richiesta == "InserimentoAuto") {
+	if ($richiesta == "InserimentoPosti") {
 		$numPiano = $dato->numPiano; //estraggo il piano
 		$numPosti = $dato->numPosti; //estraggo i posti da inserire
 		$visualizzo = "SELECT * FROM piano WHERE NumPiano=$numPiano";

@@ -4,9 +4,10 @@
 
     $data=json_decode(file_get_contents("php://input"));
     $codiceUtente=$data->codiceUtente;
+    $emailVecchia=$data->emailVecchia;
+    $emailNuova=$data->emailNuova;
 
-
-    if(!empty($codiceUtente)){
+    if(!empty($codiceUtente) && !empty($emailVecchia) && !empty($emailNuova)){
         $server = "localhost";
         $username = "root";
         $password = "";
@@ -17,19 +18,20 @@
             $ra = array("esito"=>"Fallito", "Stato"=>"Errore conn");
             echo json_encode($r);
         }else{
-            $sql="DELETE FROM utente WHERE CodUtente='$codiceUtente'";
+            $sql="UPDATE `utente` SET email='$emailNuova' WHERE codutente=$codiceUtente AND email ='$emailVecchia'";
 
-            $result = $conn->query($sql);
+            $conn->query($sql);
 
-            if($result == true){
-                $r = array("esito"=>"successo", "Stato"=>"utente eliminato con successo");
+            if($conn->affected_rows!=0){
+                $r = array("esito"=>"successo", "Stato"=>"email aggiornata con successo");
                 echo json_encode($r);
             }else{
-                $r = array("esito"=>"Fallito", "Stato"=>"l'operazione non si è conclusa con successo");
+                $r = array("esito"=>"Fallito", "Stato"=>"operazione fallita ");
                 echo json_encode($r);
             }
 
         }
     }
+    $conn->close();
 
 ?>

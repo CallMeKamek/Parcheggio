@@ -18,18 +18,21 @@ if (!empty($codiceUtente)){
 		echo json_encode($ra);
 
 	}else{
-		$sql="UPDATE `utente`SET permesso = 0  WHERE codutente='$codiceUtente'and permessi=1";
+		$sql="UPDATE `utente`SET Privilegi = 0  WHERE codutente='$codiceUtente'and Privilegi=1";
 		$conn->query($sql);
 		if ($conn->affected_rows!=0){
 			$r = array("esito"=>"Successo","Stato"=>"Permesso");
+			echo json_encode($r);
 		}else{
 			$r = array("esito"=>"Fallito","Stato"=>"Permesso");
+			echo json_encode($r);
 		}
 		
 
 	}
+	$conn->close();
 }
-$conn->close();
+
 
 
 

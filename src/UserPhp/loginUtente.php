@@ -23,7 +23,12 @@
         $risultato = $conn->query($sql);
         if ($risultato == true) {
             
-            $cod=$risultato->fetch_assoc()["CodUtente"];
+        /*    $cod=$risultato->fetch_assoc()["CodUtente"];   */
+
+		while ($row = $risultato->fetch_assoc()) {
+			$cod = $row["CodUtente"];
+			
+		}
 
             if ($risultato->num_rows > 0) {
 

@@ -22,14 +22,17 @@ if (!empty($codiceUtente)){
 		$conn->query($sql);
 		if ($conn->affected_rows!=0){
 			$r = array("esito"=>"Successo","Stato"=>"Permesso");
+			echo json_encode($r);
 		}else{
 			$r = array("esito"=>"Fallito","Stato"=>"Permesso");
+			echo json_encode($r);
 		}
 		
 
 	}
+	$conn->close();
 }
-$conn->close();
+
 
 
 

@@ -13,19 +13,26 @@ $richiesta = $dato->richiesta;
 $utente = "SELECT * FROM utente WHERE CodUtente='$codiceUtente' AND  Privilegi=1"; //vogliamo saper il tipo di utente
 $risultato = $conn->query($utente);
 if ($risultato->num_rows > 0) { //se ho almeno un elemento
-	if ($richiesta == "EliminaAuto") {
+	if ($richiesta == "EliminaPosto") {
 		$numPiano = $dato->numPiano;
 		$numPosti = $dato->numPosti;
 		$visualizzo = "SELECT * FROM Piano WHERE NumPiano=$numPiano";
 		$ris = $conn->query($visualizzo);
 		if ($ris->num_rows > 0) {
+			
 			$modifica = "UPDATE piano set NumPosti=NumPosti-$numPosti WHERE NumPosti>=$numPosti AND NumPiano=$numPiano"; //dimunuisco i posti a disposizione
 			$elimina = "";
-			$elimina = "DELETE FROM posto WHERE NumPiano=$numPiano  AND StatoPosto=0 LIMIT $numPosti;"; //l'eliminazione è limitata al numero di posti
+			$elimina = "DELETE FROM posto WHERE NumPiano=$numPiano  AND StatoPosto=0 LIMIT $numPosti";
+			
+			
+
+			//l'eliminazione è limitata al numero di posti
 			if ($conn->query($modifica) == true && $conn->query($elimina) == true) {
+				
 				$r = array("Eliminazione" => "Eliminazione fatta con successo");
 				echo json_encode($r);
 			} else {
+				
 				$r = array("Eliminazione" => "Eliminazione non riuscita");
 				echo json_encode($r);
 			}
@@ -38,3 +45,4 @@ if ($risultato->num_rows > 0) { //se ho almeno un elemento
 	$r = array("Ingresso" => "Utente non autorizzato a fare questa richiesta");
 	echo json_encode($r);
 }
+?>

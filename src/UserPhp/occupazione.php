@@ -19,7 +19,7 @@ if (!empty($targa) && !empty($numPosto)) {
         echo json_encode($ra);
     } else {
         $sql = ("INSERT INTO Occupazione (OraInizio,Targa,NumPosto) 
-                    VALUES((SELECT CURRENT_TIME()),'$targa',$numPosto)");
+                    VALUES((SELECT CURRENT_TIME()),'$targa','$numPosto')");
         if ($conn->query($sql)) {
             $r = array("esito" => "successo", "Stato" => "posto occupato con successo");
             echo json_encode($r);

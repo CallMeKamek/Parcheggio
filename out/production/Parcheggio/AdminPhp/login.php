@@ -19,14 +19,15 @@ if (!empty($email) && !empty($password)) {
 
 	$result = $conn->query($query);
 	
+		//$codUt = $result->fetch_assoc()["CodUtente"];
+		while($riga=$result->fetch_assoc()){
+			$cod=$riga["CodUtente"];
+			
+		}
 
-		$codUt = $result->fetch_assoc()["CodUtente"];
-
-		
-
-	if ($result == true ) {
-		$r = array("Esito" => "successo", "Login" => "Riuscito", "cod" => $codUt);
-		echo json_encode($r);
+	if ($result->num_rows>0) {
+		$r = array("Esito" => "successo", "Login" => "Riuscito", "cod" => "$cod");
+			echo json_encode($r);
 	} else {
 		$r = array("Esito" => "Fallito", "Login" => "Non riuscito");
 		echo json_encode($r);
