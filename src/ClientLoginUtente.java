@@ -64,7 +64,9 @@ public class ClientLoginUtente {
                                     daInviare.put("numPosto", s);
 
                                     ind = PERCORSO + "occupazione.php";
+
                                     ricevuto = richiesta(ind, daInviare);
+
                                     if (ricevuto.get("esito").equals("successo")) {
 
                                         System.out.println("Posto occupato con successo");

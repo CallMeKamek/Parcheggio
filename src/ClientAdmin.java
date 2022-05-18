@@ -27,7 +27,7 @@ public class ClientAdmin {
 
                 System.out.println("---------------------------------------------ADMIN CLIENT---------------------------------------------");
                 System.out.println("1 register, 2 login, 3 impostazioni piano, 4 impostazioni posti, 5 impostazioni utenti, 6 per chiudere");
-                scelta = tastiera.readLine();
+                    scelta = tastiera.readLine();
                 switch (scelta) {
                     case "1":
                         //registrazione
