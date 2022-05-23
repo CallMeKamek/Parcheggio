@@ -26,13 +26,13 @@ if (!empty($email) && !empty($password)) {
 		}
 
 	if ($result->num_rows>0) {
-		$r = array("Esito" => "successo", "Login" => "Riuscito", "cod" => "$cod");
+		$r = array("esito" => "successo", "Login" => "Riuscito", "cod" => "$cod");
 			echo json_encode($r);
 	} else {
-		$r = array("Esito" => "Fallito", "Login" => "Non riuscito");
+		$r = array("esito" => "Fallito", "Login" => "Non riuscito");
 		echo json_encode($r);
 	}
 } else {
-	$r = array("Esito" => "Fallito", "Login" => "Non riuscito");
+	$r = array("esito" => "Fallito", "Login" => "Non riuscito");
 	echo json_encode($r);
 }

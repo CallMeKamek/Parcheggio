@@ -7,7 +7,7 @@
 	$modello =$data->modello;
 	$CodUtente =$data->CodUtente;
 	
-    if(!empty($codiceUtente) && !empty($passwordVecchia) && !empty($passwordNuova)){
+    if(!empty($targa) && !empty($modello) && !empty($CodUtente)){
         $server = "localhost";
         $username = "root";
         $password = "";

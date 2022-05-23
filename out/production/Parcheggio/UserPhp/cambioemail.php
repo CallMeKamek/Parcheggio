@@ -3,33 +3,35 @@
     header("Access-Control-Allow-Methods: POST");
 
     $data=json_decode(file_get_contents("php://input"));
-    $piano =$data->piano;
+    $codiceUtente=$data->codiceUtente;
+    $emailVecchia=$data->emailVecchia;
+    $emailNuova=$data->emailNuova;
 
-    if(!empty($codiceUtente) && !empty($passwordVecchia) && !empty($passwordNuova)){
+    if(!empty($codiceUtente) && !empty($emailVecchia) && !empty($emailNuova)){
         $server = "localhost";
         $username = "root";
         $password = "";
-        $db = "parcheggio";
+        $db = "PARCHEGGIO";
 
         $conn = new mysqli($server, $username, $password, $db);
         if($conn->connect_error){
             $ra = array("esito"=>"Fallito", "Stato"=>"Errore conn");
             echo json_encode($r);
         }else{
-            $sql="SELECT count(*) FROM Posto WHERE StatoPosto = 0 AND NumPiano = '$piano'";
+            $sql="UPDATE `utente` SET email='$emailNuova' WHERE codutente=$codiceUtente AND email ='$emailVecchia'";
 
-            $ris= $conn->query($sql);
+            $conn->query($sql);
 
-        if($ris != 0)
-		{
-                $r = array("esito"=>"successo", "Stato"=>"Posti liberi: "+$ris);
+            if($conn->affected_rows!=0){
+                $r = array("esito"=>"successo", "Stato"=>"email aggiornata con successo");
                 echo json_encode($r);
-				//echo ris;
             }else{
-                $r = array("esito"=>"Fallito", "Stato"=>"Non ci sono posti liberi");
+                $r = array("esito"=>"Fallito", "Stato"=>"operazione fallita ");
                 echo json_encode($r);
             }
 
         }
     }
     $conn->close();
+
+?>

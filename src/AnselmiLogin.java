@@ -147,6 +147,13 @@ public class AnselmiLogin {
             System.out.println("");
             scelta = 0;
             while (scelta != 10) {
+                System.out.println("1)CambioEmail\n" +
+                        "2)eliminare un account\n" +
+                        "3)Occupare un posto\n" +
+                        "4)Cambio Password\n" +
+                        "5)Ricerca un Vehicolo\n" +
+                        "6)Numero posti liberi di un piano\n" +
+                        "7)Numero psoti liberi i tutto il parcheggio\n");
                 System.out.println("Inserisci scelta: ");
                 try {
                     scelta = Integer.parseInt(lettura.readLine());
@@ -367,9 +374,48 @@ public class AnselmiLogin {
                         System.out.println("Inserisci numero del piano: ");
                         try {
                             valoreletto = lettura.readLine();
-                            oggetto.put("piano", valoreletto);
+                            oggetto.put("piano", Integer.parseInt(valoreletto));
                             String richiesta = oggetto.toString();
-                            String indirizzo = percorso + "PostiLiberi1.php";
+
+                            String indirizzo = percorso + "PostiLiberi(1).php";
+                            URL uri = new URL(indirizzo);
+                            HttpURLConnection connessione = (HttpURLConnection) uri.openConnection();
+                            connessione.setRequestMethod("POST");
+                            connessione.setDoOutput(true);
+                            OutputStream inUscita = connessione.getOutputStream();
+                            inUscita.write(richiesta.getBytes());
+                            inUscita.flush();
+                            inUscita.close();
+
+                            int codice = connessione.getResponseCode();
+                            if (codice == HttpURLConnection.HTTP_OK) {
+                                BufferedReader inArrivo = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+                                String ricevuto = "";
+                                while ((ricevuto = inArrivo.readLine()) != null) {
+                                    System.out.println(ricevuto);
+                                }
+                            }
+
+
+
+
+
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        //} catch (ParseException e) {
+
+                        }
+                        break;
+
+                    case 7:
+                        oggetto.clear();
+                        System.out.println("Inserisci il numero del nuovo piano: ");
+
+                        try {
+
+                            String richiesta = oggetto.toString();
+                            String indirizzo = percorso + "PostiLiberi(2).php";
                             URL uri = new URL(indirizzo);
                             HttpURLConnection connessione = (HttpURLConnection) uri.openConnection();
                             connessione.setRequestMethod("POST");
@@ -379,25 +425,19 @@ public class AnselmiLogin {
                             inUscita.flush();
                             inUscita.close();
                             int codice = connessione.getResponseCode();
-                            System.out.println(codice);
                             if (codice == HttpURLConnection.HTTP_OK) {
                                 BufferedReader inArrivo = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
                                 String ricevuto = "";
-
-                                while((ricevuto = inArrivo.readLine()) != null) {
-
-                                    JSONParser convertitore = new JSONParser();
-                                    JSONObject restituito = (JSONObject) convertitore.parse(ricevuto);
-                                    String valore = (String) restituito.get("Stato");
-                                    System.out.println( "Valore : "+valore);
+                                while ((ricevuto = inArrivo.readLine()) != null) {
+                                    System.out.println(ricevuto);
                                 }
                             }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (ParseException e) {
-
+                        } catch (IOException ex) {
+                            Logger.getLogger(AnselmiLogin.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         break;
+
+
 
                 }
             }

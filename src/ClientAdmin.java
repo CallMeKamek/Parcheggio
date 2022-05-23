@@ -17,7 +17,7 @@ public class ClientAdmin {
         String scelta;
         String valore;
         int codUtent = 0;
-        String percorso = "http://localhost/Parcheggio2/";
+        String percorso = "http://localhost/Parcheggio/src/AdminPhp/";
         int privilegi = 0;
 
         boolean flag = true;
@@ -75,7 +75,8 @@ public class ClientAdmin {
 
                             String ind = percorso + "login.php";
                             JSONObject ri = richiesta(ind, oggetto);
-                            if (ri.get("Esito").equals("successo")) {
+                            System.out.println(ri.toJSONString());
+                            if (ri.get("esito").equals("successo")) {
                                 codUtent = Integer.parseInt(ri.get("cod") + "");
                                 privilegi = 1;
                                 System.out.println("Successo");
@@ -225,13 +226,8 @@ public class ClientAdmin {
                                 case "4":
                                     //visualizzazione dati posti occupati
                                     if (privilegi == 1) {
-                                        System.out.println("Inserisci numero del piano"); //non abbiamo il file php
-                                        valore = tastiera.readLine();
-                                        oggetto.put("numPiano", valore);
-                                        System.out.println("Inserisci numero del posti");
-                                        valore = tastiera.readLine();
-                                        oggetto.put("numPosto", valore);
-                                        String ind = "http://localhost/magliano/infoposto.php";
+
+                                        String ind = percorso+"Numero_posti_occupati.php";
                                         String richiesta = oggetto.toString();
                                         connetti(ind, "POST", richiesta);
                                     } else {
@@ -483,7 +479,7 @@ public class ClientAdmin {
             e.printStackTrace();
         }
         daRitornare = new JSONObject();
-        daRitornare.put("success", "false");
+        daRitornare.put("esito", "Fallito");
         return daRitornare;
     }
 }

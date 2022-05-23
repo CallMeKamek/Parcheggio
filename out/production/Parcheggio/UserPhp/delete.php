@@ -6,7 +6,7 @@
     $codiceUtente=$data->codiceUtente;
 
 
-    if(!empty($codiceUtente) && !empty($password)){
+    if(!empty($codiceUtente)){
         $server = "localhost";
         $username = "root";
         $password = "";
@@ -17,11 +17,11 @@
             $ra = array("esito"=>"Fallito", "Stato"=>"Errore conn");
             echo json_encode($r);
         }else{
-            $sql="DELETE * FROM utente  WHERE codiceUtente=$codiceUtente";
+            $sql="DELETE FROM utente WHERE CodUtente='$codiceUtente'";
 
-            $conn->query($sql);
+            $result = $conn->query($sql);
 
-            if($conn->affected_rows!=0){
+            if($result == true){
                 $r = array("esito"=>"successo", "Stato"=>"utente eliminato con successo");
                 echo json_encode($r);
             }else{
@@ -31,6 +31,5 @@
 
         }
     }
-    $conn->close();
 
 ?>
