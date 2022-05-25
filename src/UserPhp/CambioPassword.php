@@ -31,7 +31,8 @@
             }
 
         }
+         $conn->close();
     }
-    $conn->close();
+   
 
 ?>
