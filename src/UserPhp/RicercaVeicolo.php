@@ -16,14 +16,14 @@
         $conn = new mysqli($server, $username, $password, $db);
         if($conn->connect_error){
             $ra = array("esito"=>"Fallito", "Stato"=>"Errore conn");
-            echo json_encode($r);
+            echo json_encode($ra);
         }else
 		{
-            $sql="SELECT * FROM auto WHERE Targa = '$targa' AND Modello = '$modello' AND CodUtente = '$CodUtente'" ;
+            $sql="SELECT * FROM vehicolo WHERE Targa = '$targa' AND Modello = '$modello' AND CodUtente = '$CodUtente'" ;
 
             $result = $conn->query($sql);
 		
- 
+            echo "Ciao";
             if($conn->affected_rows!=0){
                 $r = array("esito"=>"successo", "Stato"=>"Veicolo trovato");
                 echo json_encode($r);
